@@ -1,33 +1,49 @@
-<html>
-<body>
+{% extends 'base.html' %}
 
-<h2>Edit Patient</h2>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-xl-5 col-lg-6">
+        <div class="card card-shadow p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div>
+                    <p class="section-label mb-1">Update record</p>
+                    <h2 class="h4 mb-0">Edit patient details</h2>
+                </div>
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">Back</a>
+            </div>
 
-<form method="post">
-    {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
 
-    Name:
-    <input type="text" name="name" value="{{ patient.name }}">
-    <br><br>
-
-    Age:
-    <input type="number" name="age" value="{{ patient.age }}">
-    <br><br>
-
-    Gender:
-    <select name="gender">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-    </select>
-
-    <br><br>
-
-    <button type="submit">
-        Update Patient
-    </button>
-
-</form>
-
-</body>
-</html>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="form-text text-danger">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    {{ form.age.label_tag }}
+                    {{ form.age }}
+                    {% if form.age.errors %}
+                        <div class="form-text text-danger">{{ form.age.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-4">
+                    {{ form.gender.label_tag }}
+                    {{ form.gender }}
+                    {% if form.gender.errors %}
+                        <div class="form-text text-danger">{{ form.gender.errors }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
