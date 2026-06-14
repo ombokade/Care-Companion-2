@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Care Companion 2.0</title>
+</head>
+<body>
+
+    <h1>🏥 Care Companion 2.0</h1>
+
+    <h2>Patient Registration Form</h2>
+    {% if messages %}
+    {% for message in messages %}
+        <p style="color:green;">
+            {{ message }}
+        </p>
+    {% endfor %}
+{% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Register Patient
+        </button>
+    </form>
+    <h2>Registered Patients</h2>
+    
+
+<table border="1" cellpadding="10">
+    <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Gender</th>
+    <th>Edit</th>
+    <th>Delete</th>
+
+    </tr>
+
+    {% for patient in patients %}
+
+<tr>
+    <td>{{ patient.id }}</td>
+    <td>{{ patient.name }}</td>
+    <td>{{ patient.age }}</td>
+    <td>{{ patient.gender }}</td>
+
+    <td>
+    <a href="{% url 'edit_patient' patient.id %}">
+        Edit
+    </a>
+    </td>
+
+    <td>
+    <a href="{% url 'delete_patient' patient.id %}"
+   onclick="return confirm('Are you sure you want to delete this patient?')">
+    Delete
+</a>
+    </td>
+</tr>
+{% endfor %}
+
+</table>    
+</ul>
+
+</body>
+</html>
